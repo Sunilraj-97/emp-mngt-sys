@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     tools {
         nodejs 'react-build-job'
     }
@@ -18,5 +22,12 @@ pipeline {
                 bat 'npm run build'
             }
         }
+
+        stage('Deploy React App') {
+            steps {
+                bat 'xcopy /E /I /Y build D:\\deployments\\react-app'
+            }
+        }
+
     }
 }
